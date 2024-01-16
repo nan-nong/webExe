@@ -24,6 +24,17 @@ public class TodoDTO {
 		this.id = entity.getId();
 		this.title = entity.getTitle();
 		this.done = entity.isDone();
+	} // constructor
+	
+	// controller에서 받은 dto를 Entity에 넣어 전달하는 역할을 한다.
+	// 즉, dto를 entity로 변경하는 메소드
+	public static TodoEntity toEntity(final TodoDTO dto) {
+	
+		return TodoEntity.builder()
+						.id(dto.getId())
+						.title(dto.getTitle())
+						.done(dto.isDone())
+						.build();
 	}
 
 }

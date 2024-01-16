@@ -1,5 +1,11 @@
 package com.example.demo.model;
 
+import org.hibernate.annotations.GenericGenerator;
+
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -12,8 +18,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Entity  // Entity임을 명시하기 위하여 추가
+@Table(name = "Todo") // 데이터베이스의 Todo 테이블에 매핑된다.
 public class TodoEntity {
 	
+	@Id		// 기본키가 될 필드에 지정
+	@GeneratedValue(generator = "system-uuid")		// ID를 자동으로 생성하겠다는 어노테이션이며 @GenericGenerator에서 정의된 이름으로 사용할 수 있다 아래의 Generator를 참조해 사용한다.
+	@GenericGenerator(name = "system-uuid", strategy = "uuid") // 나만의 Generator를 사용하고 싶은 경우 이용
 	private String id;			// 오브젝트 아이디
 	private String userId;		// 이 오브젝트를 생성한 사용자의 아이디
 	private String title;		// Todo 타이틀
