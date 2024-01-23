@@ -1,6 +1,7 @@
 package com.example.demo.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.model.UserEntity;
@@ -33,10 +34,23 @@ public class UserService {
 	}
 	
 	// 자격 증명 얻기
-	public UserEntity getByCredentials(final String email, final String password) {
+	public UserEntity getByCredentials(	final String email, 
+										final String password,
+										final PasswordEncoder encoder ) {
+		log.info("\t+ getByCredentials({}, {}, {}) method invoked.", email, password, encoder);
 		
-		log.info("\t+ getByCredentials({}, {}) method invoked.", email, password);
-		return userRepository.findByEmailAndPassword(email, password);
-	}
+		// 이메일 체크
+		final UserEntity originalUser =  userRepository.findByEmail(email);
+		log.info("\t+ originalUser 정보 : {}, {}, {}", originalUser.getEmail(), originalUser.getPassword(), originalUser.getUsername());
+		
+		// 패스워드 체크
+		if(originalUser != null && encoder.matches(password, originalUser.getPassword())) {
+			log.info("\t+ 비밀번호 검증 일치");
+			return originalUser;
+		}	
+		
+		log.info("\t+ 비밀번호 검증 불일치");
+		return null;
+	} // getByCredentials
 
-} 
+} // UserService

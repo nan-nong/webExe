@@ -1,11 +1,8 @@
 package com.example.demo.security;
 
-import java.awt.RenderingHints.Key;
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.Date;
-
-import javax.crypto.SecretKey;
 
 import org.springframework.stereotype.Service;
 
